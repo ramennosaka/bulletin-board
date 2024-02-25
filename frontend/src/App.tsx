@@ -26,7 +26,7 @@ function App() {
           {data.map((value, key) => {
             return (
                 <tr key={key}>
-                  <td>{value.id}</td>
+                  <td className="id">{value.id}</td>
                   <td>{value.title}</td>
                   <td>{value.created_time}</td>
                 </tr>
