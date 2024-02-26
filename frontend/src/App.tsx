@@ -1,17 +1,26 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-
-
-const dateAndTime: string = "2024-02-25 10:59"
-
-const data = [
-  {id: 1, title: "hello world", created_time: dateAndTime},
-  {id: 2, title: "This is big news", created_time: dateAndTime},
-  {id: 3, title: "Honda is big company", created_time: dateAndTime}
-]
+import axios from "axios";
 
 function App() {
+  interface Data {
+    id: number;
+    title: string;
+    createdTime: string;
+  }
+  const [data, setData] = useState<Data[]>([]);
 
+  useEffect(() => {
+    const apiUrl = 'http://localhost:3000/bulletinBoard';
+    axios.get(apiUrl)
+        .then(response => {
+          console.log(response)
+          setData(response.data)
+        })
+        .catch(error => {
+          console.error('error todos:', error);
+        })
+  }, []);
   return (
       <div className="App">
         <table>
@@ -23,12 +32,12 @@ function App() {
           </tr>
           </thead>
           <tbody>
-          {data.map((value, key) => {
+          {data.map((value) => {
             return (
-                <tr key={key}>
+                <tr key={value.id}>
                   <td className="id">{value.id}</td>
                   <td>{value.title}</td>
-                  <td>{value.created_time}</td>
+                  <td>{value.createdTime}</td>
                 </tr>
             )
           })}
