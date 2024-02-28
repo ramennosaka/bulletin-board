@@ -11,10 +11,10 @@ spring:
       settings:
         web-allow-others: true
   datasource:
-    url: jdbc:h2:mem:test
+    url: jdbc:h2:mem://localhost:5432/bulletin
     driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    username: bulletin
+    password: bulletin
   jpa:
     show-sql: true
     defer-datasource-initialization: true

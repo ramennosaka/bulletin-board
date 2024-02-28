@@ -1,17 +1,15 @@
 package com.example.demo.controller
 
-import com.example.demo.domain.BulletinBoardEntity
-import com.example.demo.repository.BulletinBoardRepository
-import org.springframework.web.bind.annotation.CrossOrigin
+import com.example.demo.domain.BulletinBoard
+import com.example.demo.service.BulletinBoardService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class BulletinBoardController (private val bulletinBoardRepository: BulletinBoardRepository){
+class BulletinBoardController(private val bulletinBoardService: BulletinBoardService) {
 
-    @GetMapping("/bulletinBoard")
-    @CrossOrigin
-    fun getBulletinBoard(): List<BulletinBoardEntity>{
-        return bulletinBoardRepository.findAll()
-    }
+  @GetMapping("/bulletinBoard")
+  fun getBulletinBoard(): List<BulletinBoard> {
+    return bulletinBoardService.getBulletinBoard()
+  }
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 
 
 @Entity
-@Table(name="D")
+@Table(name="TB_BULLETIN_BOARD")
 data class BulletinBoardEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
