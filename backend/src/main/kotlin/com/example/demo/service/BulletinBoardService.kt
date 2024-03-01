@@ -8,13 +8,6 @@ import org.springframework.stereotype.Service
 class BulletinBoardService(private val bulletinBoardRepository: BulletinBoardRepository) {
 
   fun getBulletinBoard(): List<BulletinBoard> {
-    val bulletinBoardEntities = bulletinBoardRepository.findAll()
-    return bulletinBoardEntities.map { entity ->
-      BulletinBoard(
-        id = entity.id,
-        title = entity.title,
-        createdTime = entity.createdTime
-      )
-    }
+    return bulletinBoardRepository.findAll().map { BulletinBoard.of(it) }
   }
 }

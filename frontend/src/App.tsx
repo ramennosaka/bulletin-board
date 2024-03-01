@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function App() {
   interface Data {
@@ -8,6 +9,16 @@ function App() {
     title: string;
     createdTime: string;
   }
+
+  const navigate = useNavigate()
+
+  const handleButtonClick = (value: Data) => {
+    navigate(
+        `/detailBulletinBoard/${value.id}`,
+        { state: { title: value.title, createdTime: value.createdTime
+        }})
+  }
+
   const [data, setData] = useState<Data[]>([]);
 
   useEffect(() => {
@@ -18,7 +29,7 @@ function App() {
           setData(response.data)
         })
         .catch(error => {
-          console.error('error todos:', error);
+          console.error('error:', error);
         })
   }, []);
   return (
@@ -35,9 +46,9 @@ function App() {
           {data.map((value) => {
             return (
                 <tr key={value.id}>
-                  <td className="id">{value.id}</td>
-                  <td>{value.title}</td>
-                  <td>{value.createdTime}</td>
+                  <td className="id" onClick={() => handleButtonClick(value)}>{value.id}</td>
+                  <td onClick={() => handleButtonClick(value)}>{value.title}</td>
+                  <td onClick={() => handleButtonClick(value)}>{value.createdTime}</td>
                 </tr>
             )
           })}
