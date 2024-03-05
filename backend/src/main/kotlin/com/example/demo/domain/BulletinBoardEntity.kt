@@ -15,5 +15,6 @@ data class BulletinBoardEntity (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
     val title: String,
+    val content: String,
     val createdTime: LocalDateTime
 )

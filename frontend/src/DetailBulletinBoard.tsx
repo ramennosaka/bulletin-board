@@ -4,20 +4,21 @@ import {useLocation} from 'react-router-dom';
 const DetailBulletinBoard = () => {
   const [titleData, setTitleData] = useState("")
   const [createdTimeData, setCreatedTimeData] = useState("")
+  const [createdContentData, setCreatedContentData] = useState("")
   const location = useLocation();
 
   useEffect(() => {
     setTitleData(location.state.title)
     setCreatedTimeData(location.state.createdTime)
-  },[location])
+    setCreatedContentData(location.state.content)
+  }, [location])
 
   return (
       <div>
         <div>Title: {titleData}({createdTimeData})</div>
         <br/>
         <div>
-          This is big news. Honda and Tanzu work together!!!
-          Wow, this is amazing.
+          {createdContentData}
         </div>
       </div>
   );
