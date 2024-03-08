@@ -8,7 +8,7 @@ data class BulletinBoard(val id: Long, val title: String, val content: String, v
     fun of(entity: BulletinBoardEntity): BulletinBoard {
       val format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
       return BulletinBoard(
-        id = entity.id,
+        id = entity.id!!, // study
         title = entity.title,
         content = entity.content,
         createdTime = entity.createdTime.format(format)

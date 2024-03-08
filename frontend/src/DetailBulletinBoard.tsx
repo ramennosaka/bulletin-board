@@ -1,11 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import axios from "axios";
 
 const DetailBulletinBoard = () => {
   const [titleData, setTitleData] = useState("")
   const [createdTimeData, setCreatedTimeData] = useState("")
   const [createdContentData, setCreatedContentData] = useState("")
+  const {id} = useParams() // Study
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const moveToWrite = useCallback(() => {
+    navigate(`/editor/${id}`, {
+      state: {
+        title: titleData,
+        content: createdContentData
+      }
+    })
+  }, [navigate, id, titleData, createdContentData])
+
 
   useEffect(() => {
     setTitleData(location.state.title)
@@ -20,6 +33,7 @@ const DetailBulletinBoard = () => {
         <div>
           {createdContentData}
         </div>
+        <button onClick={moveToWrite}>Modify</button>
       </div>
   );
 }

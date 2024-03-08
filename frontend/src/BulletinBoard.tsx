@@ -1,31 +1,25 @@
 import {useNavigate} from "react-router-dom";
-import React, {MouseEventHandler, useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
-import CreateTopic from "./CreateTopic";
 
+interface Data {
+  id: number;
+  title: string;
+  content: string
+  createdTime: string;
+}
 
 function BulletinBoard() {
-  interface Data {
-    id: number;
-    title: string;
-    content: string
-    createdTime: string;
-  }
 
   const navigate = useNavigate()
   const [data, setData] = useState<Data[]>([]);
 
   const handleButtonClick = (value: Data) => {
-    navigate(
-        `/detail/${value.id}`,
-        {
-          state: value
-        })
+    navigate(`/detail/${value.id}`, {state: value})
   }
 
-  const onClickToCreate: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
-    e.preventDefault()
-    navigate("/create")
+  const moveToWrite = useCallback(() => {
+    navigate("/editor", {state: {}})
   }, [navigate])
 
   useEffect(() => {
@@ -58,7 +52,7 @@ function BulletinBoard() {
           </tbody>
         </table>
         <div>
-          <button onClick={onClickToCreate}>write</button>
+          <button onClick={moveToWrite}>write</button>
         </div>
       </div>
   );

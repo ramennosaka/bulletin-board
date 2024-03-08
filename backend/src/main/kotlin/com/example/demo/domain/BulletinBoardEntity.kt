@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 data class BulletinBoardEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    val id: Long? = null,
     val title: String,
     val content: String,
     val createdTime: LocalDateTime

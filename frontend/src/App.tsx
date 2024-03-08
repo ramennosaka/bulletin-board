@@ -1,23 +1,20 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import DetailBulletinBoard from "./DetailBulletinBoard";
 import BulletinBoard from "./BulletinBoard";
-import CreateTopic from "./CreateTopic";
+import BulletinEditor from "./BulletinEditor";
 
 function App() {
-  const handleTopicCreate = (newTopic: {title: string, content: string}) => {}
-  const navigateToBulletinBoard = () => {}
-
-    return (
+  return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<BulletinBoard/>}/>
           <Route path="/detail/:id" element={<DetailBulletinBoard/>}/>
-          {/* path name - verb is not good */}
-          <Route path="/create" element={<CreateTopic  onTopicCreate={handleTopicCreate} navigateToBulletinBoard={navigateToBulletinBoard}/>}/>
+          <Route path="/editor" element={<BulletinEditor/>}/>
+          <Route path="/editor/:id" element={<BulletinEditor/>}/>
         </Routes>
-      </BrowserRouter>  )
+      </BrowserRouter>)
 }
 
 export default App;
