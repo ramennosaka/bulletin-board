@@ -23,4 +23,17 @@ class BulletinBoardService(private val bulletinBoardRepository: BulletinBoardRep
       )
     )
   }
+
+  fun updateBulletinBoard(id: Long, bulletinBoardCommand: BulletinBoardCommand){
+    val bulletinBoard = bulletinBoardRepository.findById(id)
+      .orElseThrow{NoSuchElementException("Bulletin board with id $id not found")}
+
+    bulletinBoard.apply {
+      title = bulletinBoardCommand.title
+      content = bulletinBoardCommand.content
+      createdTime = LocalDateTime.now()
+
+    }
+    bulletinBoardRepository.save(bulletinBoard)
+  }
 }
