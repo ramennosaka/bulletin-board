@@ -1,37 +1,44 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from "axios";
 
+type BulletinItem = {
+  id: number
+  title: string
+  content: string
+  createdTime: string
+}
+
 const DetailBulletinBoard = () => {
-  const [titleData, setTitleData] = useState("")
-  const [createdTimeData, setCreatedTimeData] = useState("")
-  const [createdContentData, setCreatedContentData] = useState("")
-  const {id} = useParams() // Study
-  const location = useLocation();
+  const {id} = useParams()
   const navigate = useNavigate();
 
+  const [bulletinItem, setBulletinItem] = useState<BulletinItem>({
+    content: "",
+    createdTime: "",
+    id: 0,
+    title: ""
+  })
+
   const moveToWrite = useCallback(() => {
-    navigate(`/editor/${id}`, {
-      state: {
-        title: titleData,
-        content: createdContentData
-      }
-    })
-  }, [navigate, id, titleData, createdContentData])
+    navigate(`/editor/${id}`, {})
+  }, [navigate, id])
 
 
   useEffect(() => {
-    setTitleData(location.state.title)
-    setCreatedTimeData(location.state.createdTime)
-    setCreatedContentData(location.state.content)
-  }, [location])
+    axios.get(`/bulletinBoard/${id}`)
+        .then(response => {
+          setBulletinItem(response.data)
+        })
+  }, [id]);
+
 
   return (
       <div>
-        <div>Title: {titleData}({createdTimeData})</div>
+        <div>Title: {bulletinItem.title}({bulletinItem.createdTime})</div>
         <br/>
         <div>
-          {createdContentData}
+          {bulletinItem.content}
         </div>
         <button onClick={moveToWrite}>Modify</button>
       </div>

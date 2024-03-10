@@ -1,37 +1,54 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./create.css";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const BulletinEditor = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const {id} = useParams()
-  const [title, setTitle] = useState(location.state.title || "")
-  const [content, setContent] = useState(location.state.title || "")
+type BulletinItem = {
+  id: number
+  title: string
+  content: string
+  createdTime: string
+}
 
+const BulletinEditor = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [bulletinItem, setBulletinItem] = useState<BulletinItem>({
+    content: "",
+    createdTime: "",
+    id: 0,
+    title: ""
+  });
 
   useEffect(() => {
-    if (location.state) {
-      setTitle(location.state.title || "");
-      setContent(location.state.content || "");
-    }
-  }, [location]);
+    axios.get(`/bulletinBoard/${id}`)
+        .then(({ data }) => setBulletinItem(data))
+  }, [id]);
+
   const handleSubmit = () => {
     const topicData = {
-      id: 0,
-      title: title,
-      content: content
-    }
-    let promise = null
+      id: bulletinItem.id,
+      title: bulletinItem.title,
+      content: bulletinItem.content
+    };
+
+    let promise = null;
     if (id) {
-      topicData.id = +id
-      promise = axios.put(`/bulletinBoard/${id}`, topicData)
+      promise = axios.put(`/bulletinBoard/${id}`, topicData);
     } else {
-      promise = axios.post('/bulletinBoard', topicData)
+      promise = axios.post('/bulletinBoard', topicData);
     }
+
     promise.then(() => navigate('/'));
-  }
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBulletinItem({ ...bulletinItem, title: e.target.value });
+  };
+
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setBulletinItem({ ...bulletinItem, content: e.target.value });
+  };
 
   return (
       <div className="create">
@@ -40,21 +57,22 @@ const BulletinEditor = () => {
             <label>Title:</label>
             <input
                 type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={bulletinItem.title}
+                onChange={handleTitleChange}
             />
           </div>
           <div>
-            <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-            />
+          <textarea
+              value={bulletinItem.content}
+              onChange={handleContentChange}
+          />
           </div>
           <button onClick={handleSubmit}>
             {id ? "Update" : "Create"}
           </button>
         </div>
       </div>
-  )
-}
-export default BulletinEditor
+  );
+};
+
+export default BulletinEditor;

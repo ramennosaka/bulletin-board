@@ -5,13 +5,20 @@ import com.example.demo.domain.BulletinBoardCommand
 import com.example.demo.domain.BulletinBoardEntity
 import com.example.demo.repository.BulletinBoardRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Service
 class BulletinBoardService(private val bulletinBoardRepository: BulletinBoardRepository) {
 
-  fun getBulletinBoard(): List<BulletinBoard> {
+  fun getBulletinBoardList(): List<BulletinBoard> {
     return bulletinBoardRepository.findAll().map { BulletinBoard.of(it) }
+  }
+
+  fun getBulletinBoard(id: Long): BulletinBoard {
+    return BulletinBoard.of(
+      bulletinBoardRepository.findById(id).orElseThrow()
+    )
   }
 
   fun savaBulletinBoard(bulletinBoardCommand: BulletinBoardCommand) {
@@ -24,16 +31,14 @@ class BulletinBoardService(private val bulletinBoardRepository: BulletinBoardRep
     )
   }
 
-  fun updateBulletinBoard(id: Long, bulletinBoardCommand: BulletinBoardCommand){
-    val bulletinBoard = bulletinBoardRepository.findById(id)
-      .orElseThrow{NoSuchElementException("Bulletin board with id $id not found")}
-
-    bulletinBoard.apply {
-      title = bulletinBoardCommand.title
-      content = bulletinBoardCommand.content
-      createdTime = LocalDateTime.now()
-
-    }
-    bulletinBoardRepository.save(bulletinBoard)
+  @Transactional
+  fun updateBulletinBoard(id: Long, bulletinBoardCommand: BulletinBoardCommand) {
+    bulletinBoardRepository.updateBulletinBoard(
+      id,
+      BulletinBoardEntity(
+        title = bulletinBoardCommand.title,
+        content = bulletinBoardCommand.content
+      )
+    )
   }
 }
