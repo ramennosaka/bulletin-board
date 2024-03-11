@@ -31,6 +31,10 @@ class BulletinBoardService(private val bulletinBoardRepository: BulletinBoardRep
     )
   }
 
+  fun deleteBulletinBoard(id: Long) {
+    bulletinBoardRepository.deleteById(id)
+  }
+
   @Transactional
   fun updateBulletinBoard(id: Long, bulletinBoardCommand: BulletinBoardCommand) {
     bulletinBoardRepository.updateBulletinBoard(
