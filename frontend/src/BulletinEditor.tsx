@@ -21,13 +21,14 @@ const BulletinEditor = () => {
   });
 
   useEffect(() => {
+    if(id){
     axios.get(`/bulletinBoard/${id}`)
         .then(({ data }) => setBulletinItem(data))
+    }
   }, [id]);
 
   const handleSubmit = () => {
     const topicData = {
-      id: bulletinItem.id,
       title: bulletinItem.title,
       content: bulletinItem.content
     };
