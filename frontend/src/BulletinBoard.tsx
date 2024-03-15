@@ -12,12 +12,18 @@ interface Data {
 function BulletinBoard() {
   const navigate = useNavigate()
   const [data, setData] = useState<Data[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Data[]>([])
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState<number>(0)
+
   const handleButtonClick = (value: Data) => {
     navigate(`/detail/${value.id}`, {state: value})
   }
+
   const moveToWrite = useCallback(() => {
     navigate("/editor", {state: {}})
   }, [navigate])
+
   useEffect(() => {
     axios.get('/bulletinBoard')
         .then(response => {
@@ -25,38 +31,53 @@ function BulletinBoard() {
         })
   }, []);
 
-  const [selectedRows, setSelectedRows] = useState<number[]>([])
 
   const handleRowSelection = (rowId: number) => {
-    if (selectedRows.includes(rowId)) {
-      setSelectedRows(selectedRows.filter((id) => id !== rowId))
+    const selectedIndex = selectedRows.findIndex(row => row.id === rowId);
+    if (selectedIndex !== -1) {
+      const updatedRows = [...selectedRows];
+      updatedRows.splice(selectedIndex, 1);
+      setSelectedRows(updatedRows);
     } else {
-      setSelectedRows([...selectedRows, rowId])
+      const selectedRow = data.find(row => row.id === rowId);
+      if (selectedRow) {
+        setSelectedRows([...selectedRows, selectedRow]);
+      }
     }
   }
-
   const handleDeleteRows = () => {
-    const newData = data.filter((row) => !selectedRows.includes(row.id))
-    setData(newData)
-    selectedRows.forEach((rowId) => {
-      axios.delete(`/bulletinBoard/${rowId}`)
-          .then((response) => {
-          })
-          .catch((error) => {
-          })
-    })
-
-    setSelectedRows([])
+    const rowIdsToDelete = selectedRows.map((row) => row.id)
+    axios.delete(`/bulletinBoard?rowIds=${rowIdsToDelete.join(',')}`)
+        .then((response) => {
+          setSelectedRows([])
+        })
   }
 
   const toggleAllRows = () => {
     if (selectedRows.length === data.length) {
       setSelectedRows([])
     } else {
-      const allRowIds = data.map(row => row.id)
-      setSelectedRows(allRowIds)
+      setSelectedRows([...data])
     }
   }
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`/bulletinBoard?page=${page}&size=10`)
+      setData(response.data)
+    } catch (error) {
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [page]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage)
+  }
+
+  console.log({selectedRows, data})
 
   return (
       <div className="BulletinBoard">
@@ -78,7 +99,7 @@ function BulletinBoard() {
                   <td>
                     <input
                         type="checkbox"
-                        checked={selectedRows.includes(value.id)}
+                        checked={selectedRows.some((row) => row.id === value.id)}
                         onChange={() => handleRowSelection(value.id)}
                     />
                   </td>
@@ -91,9 +112,17 @@ function BulletinBoard() {
           </tbody>
         </table>
         <div>
-          <button onClick={handleDeleteRows}>delete</button>
+          <button onClick={handleDeleteRows} disabled={selectedRows.length === 0}>delete</button>
           <button onClick={moveToWrite}>write</button>
         </div>
+        {totalPages > 0 && (
+            <div>
+              <span>Page: </span>
+              {Array.from({length: totalPages}).map((_, i) => (
+                  <button key={i} onClick={() => handlePageChange(i + 1)}>{i + 1}</button>
+              ))}
+            </div>
+        )}
       </div>
   );
 }

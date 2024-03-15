@@ -31,8 +31,8 @@ class BulletinBoardService(private val bulletinBoardRepository: BulletinBoardRep
     )
   }
 
-  fun deleteBulletinBoard(id: Long) {
-    bulletinBoardRepository.deleteById(id)
+  fun deleteBulletinBoards(rowIds: List<Long>) {
+    bulletinBoardRepository.deleteByIdIn(rowIds)
   }
 
   @Transactional

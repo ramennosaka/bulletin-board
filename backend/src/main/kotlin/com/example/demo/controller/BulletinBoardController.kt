@@ -31,8 +31,9 @@ class BulletinBoardController(private val bulletinBoardService: BulletinBoardSer
     bulletinBoardService.updateBulletinBoard(id, requestBody)
   }
 
-  @DeleteMapping("/bulletinBoard/{id}")
-  fun deleteBulletinBoard(@PathVariable id: Long) {
-    bulletinBoardService.deleteBulletinBoard(id)
+  @DeleteMapping("/bulletinBoard")
+  // Study @RequestParam
+  fun deleteBulletinBoard(@RequestParam rowIds: List<Long>) {
+    bulletinBoardService.deleteBulletinBoards(rowIds)
   }
 }
