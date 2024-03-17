@@ -1,6 +1,8 @@
 import {useNavigate} from "react-router-dom";
 import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
+// @ts-ignore
+import Pagination from "./Pagination"
 
 interface Data {
   id: number;
@@ -48,8 +50,9 @@ function BulletinBoard() {
   const handleDeleteRows = () => {
     const rowIdsToDelete = selectedRows.map((row) => row.id)
     axios.delete(`/bulletinBoard?rowIds=${rowIdsToDelete.join(',')}`)
-        .then((response) => {
+        .then(() => {
           setSelectedRows([])
+          fetchData()
         })
   }
 
@@ -61,23 +64,27 @@ function BulletinBoard() {
     }
   }
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`/bulletinBoard?page=${page}&size=10`)
-      setData(response.data)
-    } catch (error) {
-    }
-  }
 
   useEffect(() => {
     fetchData()
   }, [page]);
 
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage)
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`/bulletinBoard?page=${page}&size=10`)
+      setData(response.data)
+      const totalCount = parseInt(response.headers["x-total-count"])
+      setTotalPages(Math.ceil(totalCount / 10))
+    } catch (error) {
+    }
   }
 
-  console.log({selectedRows, data})
+  const handlePageChange = (newPage: number) => {
+    if(newPage < 1 || newPage > totalPages){
+      return
+    }
+    setPage(newPage)
+  }
 
   return (
       <div className="BulletinBoard">
@@ -85,7 +92,11 @@ function BulletinBoard() {
           <thead>
           <tr>
             <th onClick={toggleAllRows}>
-              <input type="checkbox" checked={selectedRows.length === data.length} readOnly/>
+              <input
+                  type="checkbox"
+                  checked={selectedRows.length === data.length}
+                  readOnly
+              />
             </th>
             <th>id</th>
             <th>title</th>
@@ -103,26 +114,39 @@ function BulletinBoard() {
                         onChange={() => handleRowSelection(value.id)}
                     />
                   </td>
-                  <td className="id" onClick={() => handleButtonClick(value)}>{value.id}</td>
-                  <td onClick={() => handleButtonClick(value)}>{value.title}</td>
-                  <td onClick={() => handleButtonClick(value)}>{value.createdTime}</td>
+                  <td
+                      className="id"
+                      onClick={() => handleButtonClick(value)}>
+                    {value.id}
+                  </td>
+                  <td
+                      onClick={() => handleButtonClick(value)}>
+                    {value.title}
+                  </td>
+                  <td
+                      onClick={() => handleButtonClick(value)}>
+                    {value.createdTime}
+                  </td>
                 </tr>
             )
           })}
           </tbody>
         </table>
         <div>
-          <button onClick={handleDeleteRows} disabled={selectedRows.length === 0}>delete</button>
-          <button onClick={moveToWrite}>write</button>
+          <button
+              onClick={handleDeleteRows}
+              disabled={selectedRows.length === 0}>
+            delete
+          </button>
+          <button onClick={moveToWrite}>
+            write
+          </button>
         </div>
-        {totalPages > 0 && (
-            <div>
-              <span>Page: </span>
-              {Array.from({length: totalPages}).map((_, i) => (
-                  <button key={i} onClick={() => handlePageChange(i + 1)}>{i + 1}</button>
-              ))}
-            </div>
-        )}
+        <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+        />
       </div>
   );
 }

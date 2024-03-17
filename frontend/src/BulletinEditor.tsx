@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./create.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 type BulletinItem = {
