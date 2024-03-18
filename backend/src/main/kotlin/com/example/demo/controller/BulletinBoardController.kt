@@ -3,14 +3,16 @@ package com.example.demo.controller
 import com.example.demo.domain.BulletinBoard
 import com.example.demo.domain.BulletinBoardCommand
 import com.example.demo.service.BulletinBoardService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class BulletinBoardController(private val bulletinBoardService: BulletinBoardService) {
 
   @GetMapping("/bulletinBoard")
-  fun getBulletinBoardList(): List<BulletinBoard> {
-    return bulletinBoardService.getBulletinBoardList()
+  fun getBulletinBoardList(pageable: Pageable): Page<BulletinBoard> {
+    return bulletinBoardService.getBulletinBoardList(pageable)
   }
 
   @GetMapping("/bulletinBoard/{id}")

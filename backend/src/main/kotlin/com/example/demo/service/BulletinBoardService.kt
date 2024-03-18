@@ -4,6 +4,8 @@ import com.example.demo.domain.BulletinBoard
 import com.example.demo.domain.BulletinBoardCommand
 import com.example.demo.domain.BulletinBoardEntity
 import com.example.demo.repository.BulletinBoardRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -11,8 +13,8 @@ import java.time.LocalDateTime
 @Service
 class BulletinBoardService(private val bulletinBoardRepository: BulletinBoardRepository) {
 
-  fun getBulletinBoardList(): List<BulletinBoard> {
-    return bulletinBoardRepository.findAll().map { BulletinBoard.of(it) }
+  fun getBulletinBoardList(pageable: Pageable): Page<BulletinBoard> {
+    return bulletinBoardRepository.findAll(pageable).map { BulletinBoard.of(it) }
   }
 
   fun getBulletinBoard(id: Long): BulletinBoard {
