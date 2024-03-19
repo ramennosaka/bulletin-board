@@ -6,15 +6,15 @@ function Pagination({currentPage, totalPages, onPageChange}) {
 
   return (
       <div className="pagination">
-        <button disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)}>
+        <button disabled={currentPage === 0} onClick={() => onPageChange(currentPage - 1)}>
           {'<'}
         </button>
         {pages.map((page) => (
-            <button key={page} onClick={() => onPageChange(page)}>
+            <button key={page} onClick={() => onPageChange(page - 1)}>
               {page}
             </button>
         ))}
-        <button disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)}>
+        <button disabled={currentPage === (totalPages - 1)} onClick={() => onPageChange(currentPage + 1)}>
           {'>'}
         </button>
       </div>

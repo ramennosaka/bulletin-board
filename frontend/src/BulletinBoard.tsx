@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 // @ts-ignore
 import Pagination from "./Pagination"
@@ -13,26 +13,17 @@ interface Data {
 
 function BulletinBoard() {
   const navigate = useNavigate()
-  const [data, setData] = useState<Data[]>([]);
+  const [todoList, setTodoList] = useState<Data[]>([]);
   const [selectedRows, setSelectedRows] = useState<Data[]>([])
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState<number>(0)
 
   const handleButtonClick = (value: Data) => {
-    navigate(`/detail/${value.id}`, {state: value})
+    navigate(`/detail/${value.id}`)
   }
-
-  const moveToWrite = useCallback(() => {
-    navigate("/editor", {state: {}})
-  }, [navigate])
-
-  useEffect(() => {
-    axios.get('/bulletinBoard')
-        .then(response => {
-          setData(response.data)
-        })
-  }, []);
-
+  const moveToWrite = () => {
+    navigate("/editor")
+  }
 
   const handleRowSelection = (rowId: number) => {
     const selectedIndex = selectedRows.findIndex(row => row.id === rowId);
@@ -41,12 +32,13 @@ function BulletinBoard() {
       updatedRows.splice(selectedIndex, 1);
       setSelectedRows(updatedRows);
     } else {
-      const selectedRow = data.find(row => row.id === rowId);
+      const selectedRow = todoList.find(row => row.id === rowId);
       if (selectedRow) {
         setSelectedRows([...selectedRows, selectedRow]);
       }
     }
   }
+
   const handleDeleteRows = () => {
     const rowIdsToDelete = selectedRows.map((row) => row.id)
     axios.delete(`/bulletinBoard?rowIds=${rowIdsToDelete.join(',')}`)
@@ -55,32 +47,30 @@ function BulletinBoard() {
           fetchData()
         })
   }
-
   const toggleAllRows = () => {
-    if (selectedRows.length === data.length) {
+    if (selectedRows.length === todoList.length) {
       setSelectedRows([])
     } else {
-      setSelectedRows([...data])
+      setSelectedRows([...todoList])
     }
   }
 
-
+  const fetchData = () => {
+    axios.get(`/bulletinBoard`, {
+      params: {
+        page,
+        size: 5
+      }
+    }).then(response => {
+      setTodoList(response.data.content)
+      setTotalPages(Math.ceil(response.data.totalElements / 5))
+    })
+  }
   useEffect(() => {
     fetchData()
   }, [page]);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`/bulletinBoard?page=${page}&size=10`)
-      setData(response.data)
-      const totalCount = parseInt(response.headers["x-total-count"])
-      setTotalPages(Math.ceil(totalCount / 10))
-    } catch (error) {
-    }
-  }
-
   const handlePageChange = (newPage: number) => {
-    if(newPage < 1 || newPage > totalPages){
+    if (newPage < 0 || newPage > totalPages - 1) {
       return
     }
     setPage(newPage)
@@ -94,7 +84,7 @@ function BulletinBoard() {
             <th onClick={toggleAllRows}>
               <input
                   type="checkbox"
-                  checked={selectedRows.length === data.length}
+                  checked={selectedRows.length === todoList.length}
                   readOnly
               />
             </th>
@@ -104,29 +94,19 @@ function BulletinBoard() {
           </tr>
           </thead>
           <tbody>
-          {data.map((value) => {
+          {todoList.map((value) => {
             return (
-                <tr key={value.id}>
-                  <td>
+                <tr key={value.id} onClick={() => handleButtonClick(value)}>
+                  <td onClick={(event) => event.stopPropagation()}>
                     <input
                         type="checkbox"
                         checked={selectedRows.some((row) => row.id === value.id)}
                         onChange={() => handleRowSelection(value.id)}
                     />
                   </td>
-                  <td
-                      className="id"
-                      onClick={() => handleButtonClick(value)}>
-                    {value.id}
-                  </td>
-                  <td
-                      onClick={() => handleButtonClick(value)}>
-                    {value.title}
-                  </td>
-                  <td
-                      onClick={() => handleButtonClick(value)}>
-                    {value.createdTime}
-                  </td>
+                  <td className="id">{value.id}</td>
+                  <td>{value.title}</td>
+                  <td>{value.createdTime}</td>
                 </tr>
             )
           })}

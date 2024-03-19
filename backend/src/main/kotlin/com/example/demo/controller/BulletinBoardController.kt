@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.*
 @RestController
 class BulletinBoardController(private val bulletinBoardService: BulletinBoardService) {
 
+  // before change - [{id, title, content, createdAt}]
+  // after change - {content:[{id, title, content, createdAt}], .....}
   @GetMapping("/bulletinBoard")
   fun getBulletinBoardList(pageable: Pageable): Page<BulletinBoard> {
-    return bulletinBoardService.getBulletinBoardList(pageable)
+    val pageResult = bulletinBoardService.getBulletinBoardList(pageable)
+    println(pageResult)
+    return pageResult
   }
 
   @GetMapping("/bulletinBoard/{id}")
