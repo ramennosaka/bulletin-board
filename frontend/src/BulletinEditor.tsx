@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "./create.css";
-import { useNavigate, useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import {BulletinItem} from "./BulletinItem";
 
-type BulletinItem = {
-  id: number
-  title: string
-  content: string
-  createdTime: string
-}
 
 const BulletinEditor = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const {id} = useParams();
   const [bulletinItem, setBulletinItem] = useState<BulletinItem>({
     content: "",
     createdTime: "",
@@ -21,9 +16,9 @@ const BulletinEditor = () => {
   });
 
   useEffect(() => {
-    if(id){
-    axios.get(`/bulletinBoard/${id}`)
-        .then(({ data }) => setBulletinItem(data))
+    if (id) {
+      axios.get(`/bulletinBoard/${id}`)
+          .then(({data}) => setBulletinItem(data))
     }
   }, [id]);
 
@@ -44,11 +39,11 @@ const BulletinEditor = () => {
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBulletinItem({ ...bulletinItem, title: e.target.value });
+    setBulletinItem({...bulletinItem, title: e.target.value});
   };
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setBulletinItem({ ...bulletinItem, content: e.target.value });
+    setBulletinItem({...bulletinItem, content: e.target.value});
   };
 
   return (

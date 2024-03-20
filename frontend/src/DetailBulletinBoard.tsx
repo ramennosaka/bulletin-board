@@ -1,13 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
+import {BulletinItem} from "./BulletinItem";
 import axios from "axios";
 
-type BulletinItem = {
-  id: number
-  title: string
-  content: string
-  createdTime: string
-}
 
 const DetailBulletinBoard = () => {
   const {id} = useParams()
@@ -23,7 +18,6 @@ const DetailBulletinBoard = () => {
   const moveToWrite = useCallback(() => {
     navigate(`/editor/${id}`, {})
   }, [navigate, id])
-
 
   useEffect(() => {
     axios.get(`/bulletinBoard/${id}`)

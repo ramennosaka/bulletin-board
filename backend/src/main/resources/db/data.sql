@@ -109,4 +109,68 @@ VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing
 INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
 VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
         '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+INSERT INTO TB_BULLETIN_BOARD (title, content, created_time, updated_time)
+VALUES ('j', 'This is big news. Honda and Tanzu work together!!! This is amazing.', '2024-02-25 10:59:00',
+        '2024-02-25 10:59:00');
+
 

@@ -4,3 +4,4 @@ export type Data = {
   content: string;
   createdTime: string;
 }
+

@@ -1,10 +1,10 @@
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 // @ts-ignore
 import Pagination from "./Pagination"
 import Table from "./Table";
 import {Data} from "./Data";
+import {fetchData, handleDeleteRows} from "./api"
 
 
 function BulletinBoard() {
@@ -35,14 +35,7 @@ function BulletinBoard() {
     }
   }
 
-  const handleDeleteRows = () => {
-    const rowIdsToDelete = selectedRows.map((row) => row.id)
-    axios.delete(`/bulletinBoard?rowIds=${rowIdsToDelete.join(',')}`)
-        .then(() => {
-          setSelectedRows([])
-          fetchData()
-        })
-  }
+
   const toggleAllRows = () => {
     if (selectedRows.length === todoList.length) {
       setSelectedRows([])
@@ -51,26 +44,24 @@ function BulletinBoard() {
     }
   }
 
-  const fetchData = () => {
-    axios.get(`/bulletinBoard`, {
-      params: {
-        page,
-        size: 5
-      }
-    }).then(response => {
-      setTodoList(response.data.content)
-      setTotalPages(Math.ceil(response.data.totalElements / 5))
-    })
-  }
   useEffect(() => {
-    fetchData()
+    fetchData(page, setTodoList, setTotalPages)
   }, [page]);
+
   const handlePageChange = (newPage: number) => {
     if (newPage < 0 || newPage > totalPages - 1) {
       return
     }
     setPage(newPage)
   }
+
+  const onDeleteRows = () => {
+    handleDeleteRows(
+        selectedRows,
+        setSelectedRows,
+        () => fetchData(page, setTodoList, setTotalPages
+        ));
+  };
 
   return (
       <div className="BulletinBoard">
@@ -83,7 +74,7 @@ function BulletinBoard() {
         />
         <div>
           <button
-              onClick={handleDeleteRows}
+              onClick={onDeleteRows}
               disabled={selectedRows.length === 0}>
             delete
           </button>
