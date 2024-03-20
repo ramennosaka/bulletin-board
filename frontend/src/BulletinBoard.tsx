@@ -3,13 +3,9 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 // @ts-ignore
 import Pagination from "./Pagination"
+import Table from "./Table";
+import {Data} from "./Data";
 
-interface Data {
-  id: number;
-  title: string;
-  content: string;
-  createdTime: string;
-}
 
 function BulletinBoard() {
   const navigate = useNavigate()
@@ -78,40 +74,13 @@ function BulletinBoard() {
 
   return (
       <div className="BulletinBoard">
-        <table>
-          <thead>
-          <tr>
-            <th onClick={toggleAllRows}>
-              <input
-                  type="checkbox"
-                  checked={selectedRows.length === todoList.length}
-                  readOnly
-              />
-            </th>
-            <th>id</th>
-            <th>title</th>
-            <th>created time</th>
-          </tr>
-          </thead>
-          <tbody>
-          {todoList.map((value) => {
-            return (
-                <tr key={value.id} onClick={() => handleButtonClick(value)}>
-                  <td onClick={(event) => event.stopPropagation()}>
-                    <input
-                        type="checkbox"
-                        checked={selectedRows.some((row) => row.id === value.id)}
-                        onChange={() => handleRowSelection(value.id)}
-                    />
-                  </td>
-                  <td className="id">{value.id}</td>
-                  <td>{value.title}</td>
-                  <td>{value.createdTime}</td>
-                </tr>
-            )
-          })}
-          </tbody>
-        </table>
+        <Table
+            toggleAllRows={toggleAllRows}
+            selectedRows={selectedRows}
+            todoList={todoList}
+            handleButtonClick={handleButtonClick}
+            handleRowSelection={handleRowSelection}
+        />
         <div>
           <button
               onClick={handleDeleteRows}
