@@ -1,4 +1,4 @@
-export type Data = {
+export type BulletinItem = {
   id: number;
   title: string;
   content: string;
